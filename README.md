@@ -13,7 +13,7 @@ The project integrates with external APIs; Performs financial ratio calculations
 ### How-to read financial ratios
 1. In project root directory and make a copy from config.example:
 
-`cp research/alphavantage/config.example research/alphavantage/config.yaml3`
+`cp research/alphavantage/config.example research/alphavantage/config.yaml`
 
 2. Enter api_key and desired company tickers.
 3. Run `alphavantage.ipynb`
