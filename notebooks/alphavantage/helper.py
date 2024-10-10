@@ -34,11 +34,11 @@ def fetch_and_save(ticker, financial, api_key):
     if response.status_code == 200:
         data = response.json()
 
-        with open(f'../../data/fundamental/{ticker}-{financial}.json', 'w') as json_file:
+        with open(f'../../data/fundamental/{ticker}-{financial}.json', 'w') as json_file: # type: ignore
             json.dump(data, json_file, indent=4)
 
     else:
-        print(f"Error: {response.status_code}")
+        raise response.raise_for_status()
 
 # Function to highlight DataFrame rows based on thresholds
 def highlight_ratio(s, margins):
