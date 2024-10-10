@@ -167,4 +167,5 @@ cython_debug/
 # Research files
 data/consolidated/*.json
 data/fundamental/*.json
+data/report/*.html
 config.yaml
