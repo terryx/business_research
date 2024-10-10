@@ -33,6 +33,9 @@ def fetch_and_save(ticker, financial, api_key):
     # Check if the request was successful
     if response.status_code == 200:
         data = response.json()
+        # Check for rate limit response
+        if info := data.get('Information'):
+            raise ValueError(info)
 
         with open(f'../../data/fundamental/{ticker}-{financial}.json', 'w') as json_file: # type: ignore
             json.dump(data, json_file, indent=4)
