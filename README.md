@@ -2,6 +2,8 @@
 This repository contains the business_research project, designed to analyze and process financial data for various business entities. 
 The project integrates with external APIs; Performs financial ratio calculations based on [Warren Buffett and the Interpretation of Financial Statements: The Search for the Company with a Durable Competitive Advantage](https://www.goodreads.com/book/show/4427672-warren-buffett-and-the-interpretation-of-financial-statements)
 
+<img src="./example.png" alt="Alt text" style="border: 2px solid black;"/>
+
 ### Pre-requisites
 - A free or paid API key from https://www.alphavantage.co/
 
