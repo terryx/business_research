@@ -2,6 +2,7 @@
 import requests
 import json
 import yaml
+import time
 
 # Read config from yaml file
 def load_config():
@@ -29,6 +30,9 @@ def fetch_and_save(ticker, financial, api_key):
     }
 
     response = requests.get(base_url, params=params)
+
+    # Add a 250ms delay to avoid hitting the rate limit
+    time.sleep(0.25)
 
     # Check if the request was successful
     if response.status_code == 200:
