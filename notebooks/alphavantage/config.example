@@ -1,2 +1,4 @@
 api_key: <api_key_here>
+functions: ['CASH_FLOW', 'INCOME_STATEMENT', 'BALANCE_SHEET', 'EARNINGS']
 symbols: ['AAPL']
+period: Q

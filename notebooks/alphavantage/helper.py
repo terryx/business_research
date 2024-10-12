@@ -3,6 +3,8 @@ import requests
 import json
 import yaml
 import time
+import pandas as pd
+from typing import Literal
 
 # Read config from yaml file
 def load_config():
@@ -46,6 +48,63 @@ def fetch_and_save(ticker, financial, api_key):
 
     else:
         raise response.raise_for_status()
+
+def consolidate_financials(symbols, functions, period: Literal["Q", "Y"]):
+    """
+    Consolidates financial data from multiple sources into a single report.
+
+    Parameters:
+    symbols (list): A list of financial symbols (e.g., stock tickers) to retrieve data for.
+    functions (list): A list of functions that define the type of financial data to extract (e.g., balance sheet, income statement).
+    period (Literal["Q", "Y"]): Specifies the reporting period for the data:
+        - "Q" for quarterly reports
+        - "Y" for annual (yearly) reports
+
+    The function gathers financial data based on the provided symbols and functions, then consolidates
+    them into a unified report for the specified period (quarterly or annual).
+    """
+    report_type = "annualReports"
+    earning_type = "annualEarnings"
+
+    report_data_dict = {}
+
+    if period == "Q":
+        report_type = "quarterlyReports"
+        earning_type = "quarterlyEarnings"
+
+    for symbol in symbols:
+        for function in functions:
+
+            file_path = f'../../data/fundamental/{symbol}-{function}.json'
+
+            # Open and load the JSON file
+            with open(file_path, 'r') as json_file:
+                data = json.load(json_file)
+
+            # Extract the 'annualReports' data
+            report_data = data.get(report_type, [])
+
+            if not report_data:
+                report_data = data.get(earning_type, [])
+
+            # Loop through the report data and reformat it
+            for item in report_data:
+                fiscal_date = item.get('fiscalDateEnding')
+                # Add each key-value pair to the dictionary
+                for key, value in item.items():
+                    # if key != 'fiscalDateEnding':
+                    if key not in report_data_dict:
+                        report_data_dict[key] = {}
+                    report_data_dict[key][fiscal_date] = value
+
+            # Convert the dictionary to a DataFrame
+            df = pd.DataFrame(report_data_dict).T
+
+            df = df.apply(pd.to_numeric, errors='coerce')
+
+            df = df.fillna(0)
+
+            df.to_json(f'../../data/consolidated/{symbol}.json', indent=4)
 
 # Function to highlight DataFrame rows based on thresholds
 def highlight_ratio(s, margins):
