@@ -5,6 +5,7 @@ The project integrates with external APIs; Performs financial ratio calculations
 <img src="./example.png" alt="Alt text" style="border: 2px solid black;"/>
 
 ### Pre-requisites
+- Python 3 installed on your machine.
 - A free or paid API key from https://www.alphavantage.co/
 
 ### Installation
